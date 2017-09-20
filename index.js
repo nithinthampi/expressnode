@@ -1,10 +1,29 @@
-const express = require('express');
+const express = require("express");
 const app = express();
+const passport = require("passport");
+const cookieSession = require("cookie-session");
 
-app.get('/', (req,res) =>{
-    res.send({hi : 'There'});
-})
+const expressRoutes = require("./routes/expressRoutes");
+const mongoose = require("mongoose");
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT);
-console.log('Server started successfully');
+
+mongoose.connect("mongodb://nithin:nithin@ds143744.mlab.com:43744/nodejs",{
+    useMongoClient:true
+});
+
+require('./models/User');
+require("./services/passport")
+
+app.use(cookieSession({
+    maxAge : 30 *24*60*60*1000,
+    keys:["daldhlzhldhlsdbskdgsdlhsldhlshldhshdhslhdlsdhslhdl"]
+}));
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+expressRoutes(app);
+
+//Listen express app in 5000 port
+app.listen(5000);
+console.log("Server started successfully");
