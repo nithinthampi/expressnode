@@ -27,5 +27,5 @@ expressRoutes(app);
 
 
 //Listen express app in 5000 port
-app.listen(5000);
+app.listen(process.env.PORT || 5000);
 console.log("Server started successfully");
