@@ -1,3 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
-mongoose.model('users',{googleUserId : Number});
+mongoose.model("users", {
+  googleUserId: Number,
+  credits: { type: Number, default: 0 }
+});
