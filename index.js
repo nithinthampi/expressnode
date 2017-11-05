@@ -3,17 +3,21 @@ const app = express();
 const passport = require("passport");
 const cookieSession = require("cookie-session");
 const keys = require("./config/keys");
+
+//Register the schema with mongoose
+require("./models/User");
+require("./models/Survey");
+
 const billingRoutes = require("./routes/billingRoutes");
 const authRoutes = require("./routes/authRoutes");
+const surveyRoutes = require("./routes/surveyRoutes");
 const bodyParser = require("body-parser");
 
 const mongoose = require("mongoose");
-
 mongoose.connect(keys.mongoURI, {
   useMongoClient: true
 });
 
-require("./models/User");
 require("./services/passport");
 
 app.use(bodyParser.json());
@@ -29,6 +33,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 authRoutes(app);
 billingRoutes(app);
+surveyRoutes(app);
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static("client/build"));
